@@ -16,7 +16,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { arrayMove } from "@dnd-kit/sortable";
 import Column from "./ListColumns/Column/Column";
 import Card from "./ListColumns/Column/ListCards/Card/Card";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
+import { generatePlaceholderCard } from "~/utils/formatter";
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",
   CARD: "ACTIVE_DRAG_ITEM_TYPE_CARD",
@@ -94,6 +95,12 @@ function BoardContent({ board }) {
         nextActiveColumn.cards = nextActiveColumn.cards.filter(
           (card) => card._id !== activeDraggingCardId
         );
+
+        //
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)];
+        }
+
         // cap nhat lai cardOrderIds cua column cu
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
           (card) => card._id
@@ -108,6 +115,11 @@ function BoardContent({ board }) {
 
         // tiep theo la them cai card dang keo vao overColumn theo vi tri index moi ma no sap duoc tha vao
         nextOverColumn.cards.splice(newCardIndex, 0, activeDraggingCardData);
+
+        // xoa placeholder card neu co
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          (card) => !card.FE_Placeholder
+        );
 
         // cap nhat lai cardOrderIds cua column moi
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
@@ -314,6 +326,9 @@ function BoardContent({ board }) {
       let overId = getFirstCollision(pointerIntersection, "id");
 
       if (overId) {
+        // nếu cái over nó là column thì sẽ tìm tới cái cardId gần nhất bên trong khu vực va chạm đó dựa vào
+        // thuật toán phát hiện va chạm closetCorners hoặc closetCenter đều được. Tuy nhiên ở đây dùng closetCorners thấy
+        // mượt mà hơn.
         const checkColumn = orderedColumnsState.find(
           (column) => column._id === overId
         );
