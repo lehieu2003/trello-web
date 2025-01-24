@@ -3,12 +3,12 @@ import Column from "./Column/Column";
 import Button from "@mui/material/Button";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import CloseIcon from "@mui/icons-material/Close";
-
 import {
   SortableContext,
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import {  TextField } from "@mui/material";
 
 const ListColumns = ({ columns }) => {
@@ -18,7 +18,7 @@ const ListColumns = ({ columns }) => {
 
   const addNewColumn = () => {
     if (!newColumnTitle) {
-      console.error("Please enter column title");
+      toast.error("Column title is required");
       return;
     }
 

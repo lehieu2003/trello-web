@@ -7,7 +7,6 @@ import {
   useSensors,
   DragOverlay,
   defaultDropAnimationSideEffects,
-  // MouseSensor,
   closestCorners,
   pointerWithin,
   getFirstCollision,
