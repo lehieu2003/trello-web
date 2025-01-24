@@ -22,7 +22,6 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import theme from "~/theme";
 
 const Column = ({ column }) => {
   const {
@@ -220,6 +219,7 @@ const Column = ({ column }) => {
                 size="small"
                 variant="outlined"
                 autoFocus
+                data-no-dnd="true"
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}     
                 sx={{

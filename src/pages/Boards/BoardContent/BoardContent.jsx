@@ -7,11 +7,12 @@ import {
   useSensors,
   DragOverlay,
   defaultDropAnimationSideEffects,
-  MouseSensor,
+  // MouseSensor,
   closestCorners,
   pointerWithin,
   getFirstCollision,
 } from "@dnd-kit/core";
+import { MouseSensor, TouchSensor } from "~/customLibraries/DndKitSensors";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { arrayMove } from "@dnd-kit/sortable";
 import Column from "./ListColumns/Column/Column";
@@ -30,7 +31,8 @@ function BoardContent({ board }) {
       distance: 10,
     },
   });
-  const sensors = useSensors(mouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const sensors = useSensors(mouseSensor, touchSensor);
 
   const [orderedColumnsState, setOrderedColumnsState] = useState([]);
 
