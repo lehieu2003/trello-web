@@ -27,6 +27,9 @@ const MENU_STYLE = {
 function BoardBar({ board }) {
   // const { board } = props;
 
+  console.log("board", board);
+
+
   return (
     <Box
       sx={{
@@ -49,12 +52,14 @@ function BoardBar({ board }) {
           gap: 2,
         }}
       >
-        <Chip
-          sx={MENU_STYLE}
-          icon={<DashboardIcon />}
-          label={board?.title}
-          clickable
-        />
+        <Tooltip title= {board?.description}>
+          <Chip
+            sx={MENU_STYLE}
+            icon={<DashboardIcon />}
+            label={board?.title}
+            clickable
+          />
+        </Tooltip>
 
         <Chip
           sx={MENU_STYLE}
